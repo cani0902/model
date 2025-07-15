@@ -4,10 +4,14 @@ import pandas as pd
 # 🗂️ 구글 스프레드시트 csv 링크
 sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ0rXK4SMIQZS0_U2uVXMw8qJ6BThe1wB-lapp0XOE5NV2HNf29js3_WCq4tzE42EEi8odSGkQM_Cuv/pub?output=csv"
 
-# 🔄 새로고침 버튼 클릭 시 캐시 제거 및 앱 재실행
 if st.sidebar.button("🔄 데이터 새로고침"):
     st.cache_data.clear()
-    st.experimental_rerun()
+    st.session_state["refresh_triggered"] = True
+
+# 새로고침이 눌린 경우 rerun 실행
+if st.session_state.get("refresh_triggered", False):
+    st.session_state["refresh_triggered"] = False
+    st.rerun()
 
 # 📦 데이터 로딩 함수 (캐시 적용)
 @st.cache_data
