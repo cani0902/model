@@ -30,7 +30,7 @@ def load_data():
 
 # 📊 앱 UI 시작
 st.set_page_config(page_title="생산 데이터 확인", layout="wide")
-st.title("📊 모델별 생산 데이터 확인 시스템")
+st.title("Model Production Data")
 
 # 📥 데이터 로딩
 df = load_data()
