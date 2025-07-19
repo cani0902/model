@@ -19,7 +19,7 @@ def load_data():
     df = pd.read_csv(sheet_url)
 
     # 🧹 빈 값 있는 행 제거
-    df = df.dropna(subset=["Model", "Line", "Time", "OK", "NG", "Day"])
+    df = df.dropna(subset=["Model", "Line", "Time", "OK", "NG", "Date"])
 
     # 🔢 계산 필드 추가
     df['OK'] = df['OK'].astype(int)
@@ -47,7 +47,7 @@ if not view_total:
     model_df = df[df['Model'] == selected_model].copy()
     model_df['Yield'] = model_df['Yield'].apply(lambda x: f"{x}%" if pd.notnull(x) else "")
 
-    st.dataframe(model_df[['Line', 'Time', 'OK', 'NG', 'Input', 'Yield', 'Day']], use_container_width=True)
+    st.dataframe(model_df[['Line', 'Time', 'OK', 'NG', 'Input', 'Yield', 'Date']], use_container_width=True)
 
     # 📈 총합 메트릭
     total_ok = model_df['OK'].sum()
