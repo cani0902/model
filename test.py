@@ -18,8 +18,18 @@ if st.session_state.get("refresh_triggered", False):
 def load_data():
     df = pd.read_csv(sheet_url)
 
+    # 🔧 열 이름 공백 제거
+    df.columns = df.columns.str.strip()
+
+    # ✅ 컬럼 존재 여부 확인
+    required_cols = ["Model", "Line", "Time", "OK", "NG", "Date"]
+    missing_cols = [col for col in required_cols if col not in df.columns]
+    if missing_cols:
+        st.error(f"❌ Missing columns in data: {missing_cols}")
+        st.stop()
+
     # 🧹 빈 값 있는 행 제거
-    df = df.dropna(subset=["Model", "Line", "Time", "OK", "NG", "Date"])
+    df = df.dropna(subset=required_cols)
 
     # 🔢 계산 필드 추가
     df['OK'] = df['OK'].astype(int)
@@ -27,6 +37,7 @@ def load_data():
     df['Input'] = df['OK'] + df['NG']
     df['Yield'] = round(df['OK'] / df['Input'] * 100, 1)
     return df
+
 
 # 📊 앱 UI 시작
 st.set_page_config(page_title="Model Data Check", layout="wide")
