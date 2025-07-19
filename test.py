@@ -58,7 +58,7 @@ if not view_total:
     model_df = df[df['Model'] == selected_model].copy()
     model_df['Yield'] = model_df['Yield'].apply(lambda x: f"{x}%" if pd.notnull(x) else "")
 
-    st.dataframe(model_df[['Date', 'Line', 'Time', 'OK', 'NG', 'Input', 'Yield']], use_container_width=True)
+    st.dataframe(model_df[['Date', 'Time', 'Line', 'OK', 'NG', 'Input', 'Yield']], use_container_width=True)
 
     # 📈 총합 메트릭
     total_ok = model_df['OK'].sum()
